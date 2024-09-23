@@ -17,8 +17,8 @@ namespace SQSProducer
 
         public async Task Send(String message)
         {
-            string accessKey = ""; 
-            string secret = "";
+            string accessKey = Environment.GetEnvironmentVariable("AWS_KEY");  
+            string secret = Environment.GetEnvironmentVariable("AWS_SECRET"); 
             string queueUrl  = "https://sqs.us-east-1.amazonaws.com/374255044811/DocumentRequestQueue";
             bool useFifo = false;
             string messageGroupId = "";

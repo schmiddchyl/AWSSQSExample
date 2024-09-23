@@ -11,6 +11,7 @@ namespace SQSProducer
 
            SQSMessageProducer sqsMessageProducer = new SQSMessageProducer();
 
+
            await sqsMessageProducer.Send(message);
 
            Console.WriteLine("Message Sent: " + message);

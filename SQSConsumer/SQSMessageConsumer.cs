@@ -27,8 +27,8 @@ namespace SQSConsumer
 
         public SQSMessageConsumer()
         {
-             _accessKey = ""; 
-             _secret = "";
+             _accessKey = Environment.GetEnvironmentVariable("AWS_KEY"); 
+             _secret = Environment.GetEnvironmentVariable("AWS_SECRET");
             _queueUrl = "https://sqs.us-east-1.amazonaws.com/374255044811/DocumentRequestQueue";
             _awsregion = "us-east-1";
             _messageWaitTimeSeconds = 20;
@@ -81,7 +81,7 @@ namespace SQSConsumer
                 { 
                     string messageBody = receiveMessageResponse.Messages[i].Body;
 
-                    Console.WriteLine("Message Received: " + messageBody);
+                    Console.WriteLine("Reading Message from Queue, Uploading to S3: " + messageBody);
 
                     await DeleteMessageAsync(receiveMessageResponse.Messages[i].ReceiptHandle);
                     s3Upload();

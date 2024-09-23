@@ -30,8 +30,8 @@ namespace SQSConsumer
 
         public SQSMessageConsumer()
         {
-            _accessKey = "";
-            _secret = "";
+            _accessKey = Environment.GetEnvironmentVariable("AWS_KEY"); ;
+            _secret = Environment.GetEnvironmentVariable("AWS_SECRET"); ;
             _queueUrl = "https://sqs.us-east-1.amazonaws.com/374255044811/sqsquepluss3demo";
             _awsregion = "us-east-1";
             _messageWaitTimeSeconds = 20;
@@ -90,7 +90,7 @@ namespace SQSConsumer
                     string messageBody = receiveMessageResponse.Messages[i].Body;
                     var s3EventNotification = Amazon.S3.Util.S3EventNotification.ParseJson(messageBody);
                     
-                    Console.WriteLine("Message Received: " + messageBody);
+                    Console.WriteLine("Reading from S3 Update Queue: " + messageBody);
                     String key = s3EventNotification.Records[0].S3.Object.Key;
                     
                     await DeleteMessageAsync(receiveMessageResponse.Messages[i].ReceiptHandle);
@@ -107,6 +107,8 @@ namespace SQSConsumer
         {
             IAmazonS3 client = new AmazonS3Client(_accessKey, _secret, RegionEndpoint.USEast1);
 
+            Console.WriteLine("Downloading document from S3");
+            Console.WriteLine("writing to local file");
             var request = new GetObjectRequest
             {
                 BucketName = "hcw-img",
